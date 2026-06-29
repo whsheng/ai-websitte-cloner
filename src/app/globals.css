@@ -7,9 +7,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
-  --font-heading: var(--font-sans);
+  --font-sans: var(--font-luzz-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  --font-heading: var(--font-luzz-heading), var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -50,37 +50,41 @@
 
 :root {
   --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --foreground: oklch(0.18 0 0);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.18 0 0);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.18 0 0);
+  --primary: oklch(0.31 0.055 268);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --secondary-foreground: oklch(0.18 0 0);
+  --muted: oklch(0.965 0 0);
+  --muted-foreground: oklch(0.47 0 0);
+  --accent: oklch(0.67 0.171 294);
+  --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
+  --border: oklch(0.92 0 0);
+  --input: oklch(0.92 0 0);
+  --ring: oklch(0.58 0.155 251);
+  --chart-1: oklch(0.57 0.18 255);
+  --chart-2: oklch(0.72 0.12 300);
+  --chart-3: oklch(0.85 0.03 250);
+  --chart-4: oklch(0.31 0.055 268);
+  --chart-5: oklch(0.24 0.03 265);
+  --radius: 0.75rem;
   --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.18 0 0);
+  --sidebar-primary: oklch(0.31 0.055 268);
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-accent-foreground: oklch(0.18 0 0);
   --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar-ring: oklch(0.58 0.155 251);
+  --luzz-navy: #242833;
+  --luzz-blue: #0075da;
+  --luzz-violet: #aa78e7;
+  --luzz-surface: #f6f6f6;
 }
 
 .dark {
@@ -121,10 +125,132 @@
   * {
     @apply border-border outline-ring/50;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
   html {
-    @apply font-sans;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background font-sans text-foreground;
+  }
+  a {
+    @apply transition-colors;
+  }
+}
+
+@layer components {
+  .luzz-container {
+    @apply mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-8;
+  }
+
+  .luzz-marquee-track {
+    animation: luzz-marquee 26s linear infinite;
+  }
+
+  .luzz-warranty-pattern {
+    background:
+      radial-gradient(circle at 0 50%, rgba(255, 255, 255, 0.08) 0 28%, transparent 29%) 0 0 / 160px 100%,
+      linear-gradient(180deg, #1f222c 0%, #242833 100%);
+  }
+
+  .luzz-header-trigger {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.95rem;
+    padding: 0 0.72rem;
+    color: rgba(255, 255, 255, 0.84);
+    transition:
+      color 220ms ease,
+      opacity 220ms ease,
+      transform 220ms ease;
+  }
+
+  .luzz-header-trigger::after {
+    content: "";
+    position: absolute;
+    left: 0.72rem;
+    right: 0.72rem;
+    bottom: 0.56rem;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+    transform: scaleX(0.1);
+    transform-origin: center;
+    opacity: 0;
+    transition:
+      opacity 220ms ease,
+      transform 220ms ease;
+  }
+
+  .luzz-header-trigger:hover,
+  .luzz-header-trigger:focus-visible,
+  .group:hover > .flex .luzz-header-trigger,
+  .group:focus-within > .flex .luzz-header-trigger {
+    color: rgba(255, 255, 255, 1);
+    text-shadow: 0 0 14px rgba(255, 255, 255, 0.12);
+  }
+
+  .luzz-header-trigger:hover::after,
+  .luzz-header-trigger:focus-visible::after,
+  .group:hover > .flex .luzz-header-trigger::after,
+  .group:focus-within > .flex .luzz-header-trigger::after {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+
+  .luzz-header-trigger:focus-visible {
+    outline: none;
+  }
+
+  .luzz-header-menu-item > div {
+    position: relative;
+  }
+
+  .luzz-header-menu-item > div::before {
+    content: "";
+    position: absolute;
+    left: 0.72rem;
+    right: 0.72rem;
+    bottom: -0.95rem;
+    height: 1rem;
+  }
+
+  .luzz-utility-social-link {
+    display: flex;
+    height: 1.75rem;
+    width: 1.75rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    transition:
+      color 180ms ease,
+      transform 180ms ease,
+      opacity 180ms ease;
+  }
+
+  .luzz-utility-social-link:hover {
+    color: #0075da;
+    transform: translateY(-1px);
+  }
+
+  .luzz-utility-button {
+    display: inline-flex;
+    height: 1rem;
+    width: 1rem;
+    align-items: center;
+    justify-content: center;
+    color: rgba(17, 17, 17, 0.6);
+    transition: color 180ms ease;
+  }
+
+  .luzz-utility-button:hover {
+    color: #111111;
+  }
+}
+
+@keyframes luzz-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }
